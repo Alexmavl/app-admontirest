@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Search, Loader2, AlertCircle, ChevronLeft, ChevronRight, HardHat } from 'lucide-react';
+import { Search, Loader2, Database, AlertCircle, ChevronLeft, ChevronRight, HardHat } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './App.css';
 
@@ -84,8 +84,8 @@ function InfoTab() {
           <div className="info-card-icon soap">⚖️</div>
           <h3>SOAP vs REST</h3>
           <p>
-            <strong>SOAP</strong> ofrece tipado fuerte mediante WSDL/XSD, ideal para bancos (Banguat). 
-            <strong>REST</strong> es más ligero, usa JSON y arquitectura sin estado, 
+            <strong>SOAP</strong> ofrece tipado fuerte mediante WSDL/XSD, ideal para bancos (Banguat).
+            <strong>REST</strong> es más ligero, usa JSON y arquitectura sin estado,
             siendo la elección óptima para Open Data como la del INE.
           </p>
         </div>
@@ -184,15 +184,15 @@ function App() {
       }
 
       const response = await fetch(url.toString(), {
-        // Agregamos timeout de 5 segundos
-        signal: AbortSignal.timeout ? AbortSignal.timeout(5000) : undefined
+        // Incrementamos el timeout a 15 segundos para dar margen a la API del INE
+        signal: AbortSignal.timeout ? AbortSignal.timeout(15000) : undefined
       });
       if (!response.ok) {
         throw new Error(`Error de red: ${response.status}`);
       }
-      
+
       const json: CkanResponse = await response.json();
-      
+
       if (json.success && json.result) {
         setData(json.result.records);
         setTotalRecords(json.result.total);
@@ -205,7 +205,7 @@ function App() {
       let localData = MOCK_DATA;
       if (debouncedQuery.trim() !== '') {
         const queryLower = debouncedQuery.toLowerCase();
-        localData = MOCK_DATA.filter(item => 
+        localData = MOCK_DATA.filter(item =>
           item["NOMBRE ARTÍCULO"].toLowerCase().includes(queryLower)
         );
       }
@@ -260,166 +260,166 @@ function App() {
         <div className="navbar-badge">REST Web Service</div>
       </nav>
 
-    <div className="app-container">
-      {/* Tabs */}
-      <div className="tabs-container">
-        <button 
-          className={`tab-button ${activeTab === 'consulta' ? 'active' : ''}`}
-          onClick={() => setActiveTab('consulta')}
-        >
-          <span className="tab-icon">🔍</span>
-          <span className="tab-label">Consulta INE</span>
-        </button>
-        <button 
-          className={`tab-button ${activeTab === 'info' ? 'active' : ''}`}
-          onClick={() => setActiveTab('info')}
-        >
-          <span className="tab-icon">ℹ️</span>
-          <span className="tab-label">Información de Tarea</span>
-        </button>
-      </div>
+      <div className="app-container">
+        {/* Tabs */}
+        <div className="tabs-container">
+          <button
+            className={`tab-button ${activeTab === 'consulta' ? 'active' : ''}`}
+            onClick={() => setActiveTab('consulta')}
+          >
+            <span className="tab-icon">🔍</span>
+            <span className="tab-label">Consulta INE</span>
+          </button>
+          <button
+            className={`tab-button ${activeTab === 'info' ? 'active' : ''}`}
+            onClick={() => setActiveTab('info')}
+          >
+            <span className="tab-icon">ℹ️</span>
+            <span className="tab-label">Información de Tarea</span>
+          </button>
+        </div>
 
-      {/* Main content */}
-      <main>
-        <AnimatePresence mode="wait">
-          {activeTab === 'consulta' && (
-            <motion.div
-              key="consulta-tab"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <section className="search-section">
-                <p className="search-description">
-                  Busca en tiempo real índices de materiales de construcción consumiendo directamente la <a href="https://datos.ine.gob.gt/es/api/3/action/datastore_search?resource_id=139681d7-73d5-49b6-92f4-f9fc34fa8bd0" target="_blank" rel="noopener noreferrer" style={{ color: "var(--primary)", fontWeight: "600", textDecoration: "none" }}>API pública del Instituto Nacional de Estadística</a>.
-                </p>
-                <div className="search-bar-container">
-                  <Search className="search-icon" size={20} />
-                  <input 
-                    type="text" 
-                    className="search-input" 
-                    placeholder="Buscar material (ej. Tubo, Acero, Cemento)..." 
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                  />
-                </div>
-              </section>
+        {/* Main content */}
+        <main>
+          <AnimatePresence mode="wait">
+            {activeTab === 'consulta' && (
+              <motion.div
+                key="consulta-tab"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <section className="search-section">
+                  <p className="search-description">
+                    Busca en tiempo real índices de materiales de construcción consumiendo directamente la <a href="https://datos.ine.gob.gt/es/api/3/action/datastore_search?resource_id=139681d7-73d5-49b6-92f4-f9fc34fa8bd0" target="_blank" rel="noopener noreferrer" style={{ color: "var(--primary)", fontWeight: "600", textDecoration: "none" }}>API pública del Instituto Nacional de Estadística</a>.
+                  </p>
+                  <div className="search-bar-container">
+                    <Search className="search-icon" size={20} />
+                    <input
+                      type="text"
+                      className="search-input"
+                      placeholder="Buscar material (ej. Tubo, Acero, Cemento)..."
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                    />
+                  </div>
+                </section>
 
-              <div style={{ position: 'relative', width: '100%' }}>
-                {error && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: -10 }} 
-                    animate={{ opacity: 1, y: 0 }} 
-                    style={{ background: '#fef2f2', border: '1px solid #fecaca', color: '#b91c1c', padding: '12px 20px', borderRadius: '12px', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', fontWeight: 500, boxShadow: '0 4px 12px rgba(239,68,68,0.1)' }}
-                  >
-                    <AlertCircle size={24} style={{ flexShrink: 0 }} />
-                    <span style={{ flex: 1 }}>{error}</span>
-                  </motion.div>
-                )}
+                <div style={{ position: 'relative', width: '100%' }}>
+                  {error && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      style={{ background: '#fef2f2', border: '1px solid #fecaca', color: '#b91c1c', padding: '12px 20px', borderRadius: '12px', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '14px', fontWeight: 500, boxShadow: '0 4px 12px rgba(239,68,68,0.1)' }}
+                    >
+                      <AlertCircle size={24} style={{ flexShrink: 0 }} />
+                      <span style={{ flex: 1 }}>{error}</span>
+                    </motion.div>
+                  )}
 
-                {loading && data.length === 0 ? (
-                  <motion.div 
-                    key="loading"
-                    initial={{ opacity: 0 }} 
-                    animate={{ opacity: 1 }} 
-                    exit={{ opacity: 0 }}
-                    className="loading-container"
-                  >
-                    <Loader2 className="spinner" size={48} />
-                    <p>Conectando con API REST del INE...</p>
-                  </motion.div>
-                ) : data.length === 0 ? (
-                  <motion.div 
-                    key="empty"
-                    initial={{ opacity: 0 }} 
-                    animate={{ opacity: 1 }} 
-                    exit={{ opacity: 0 }}
-                    className="empty-container"
-                  >
-                    <HardHat size={48} color="var(--text-muted)" opacity={0.5} />
-                    <h3>No se encontraron resultados</h3>
-                    <p>No hay materiales que coincidan con "{debouncedQuery}"</p>
-                  </motion.div>
-                ) : (
-                  <motion.div 
-                    key="results"
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="show"
-                  >
-                    <div className="results-grid">
-                      {data.map((item) => (
-                        <motion.div variants={itemVariants} key={item._id} className="material-card">
-                          <div className="card-header">
-                            <h3 className="card-title">{item["NOMBRE ARTÍCULO"]}</h3>
-                            <span className="card-badge">Grupo {item.GRUPO}</span>
-                          </div>
-                          
-                          <div className="card-info">
-                            <div className="info-row">
-                              <span className="info-label">Unidad de Medida</span>
-                              <span className="info-value">{item["UNIDAD DE MEDIDA"]}</span>
+                  {loading && data.length === 0 ? (
+                    <motion.div
+                      key="loading"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="loading-container"
+                    >
+                      <Loader2 className="spinner" size={48} />
+                      <p>Conectando con API REST del INE...</p>
+                    </motion.div>
+                  ) : data.length === 0 ? (
+                    <motion.div
+                      key="empty"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="empty-container"
+                    >
+                      <HardHat size={48} color="var(--text-muted)" opacity={0.5} />
+                      <h3>No se encontraron resultados</h3>
+                      <p>No hay materiales que coincidan con "{debouncedQuery}"</p>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="results"
+                      variants={containerVariants}
+                      initial="hidden"
+                      animate="show"
+                    >
+                      <div className="results-grid">
+                        {data.map((item) => (
+                          <motion.div variants={itemVariants} key={item._id} className="material-card">
+                            <div className="card-header">
+                              <h3 className="card-title">{item["NOMBRE ARTÍCULO"]}</h3>
+                              <span className="card-badge">Grupo {item.GRUPO}</span>
                             </div>
-                            <div className="info-row">
-                              <span className="info-label">Fecha</span>
-                              <span className="info-value">{item.MES} {item.AÑO}</span>
-                            </div>
-                            <div className="info-row">
-                              <span className="info-label">Índice</span>
-                              <span className="index-value">{item.ÍNDICE}</span>
-                            </div>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
 
-                    {/* Pagination */}
-                    {totalRecords > 0 && (
-                      <div className="pagination">
-                        <button 
-                          className="page-btn" 
-                          onClick={handlePrevPage} 
-                          disabled={offset === 0 || loading}
-                        >
-                          <ChevronLeft size={20} />
-                        </button>
-                        <span className="page-info">
-                          {loading ? (
-                            <Loader2 size={16} className="spinner" />
-                          ) : (
-                            `Mostrando ${offset + 1} - ${Math.min(offset + LIMIT, totalRecords)} de ${totalRecords}`
-                          )}
-                        </span>
-                        <button 
-                          className="page-btn" 
-                          onClick={handleNextPage} 
-                          disabled={offset + LIMIT >= totalRecords || loading}
-                        >
-                          <ChevronRight size={20} />
-                        </button>
+                            <div className="card-info">
+                              <div className="info-row">
+                                <span className="info-label">Unidad de Medida</span>
+                                <span className="info-value">{item["UNIDAD DE MEDIDA"]}</span>
+                              </div>
+                              <div className="info-row">
+                                <span className="info-label">Fecha</span>
+                                <span className="info-value">{item.MES} {item.AÑO}</span>
+                              </div>
+                              <div className="info-row">
+                                <span className="info-label">Índice</span>
+                                <span className="index-value">{item.ÍNDICE}</span>
+                              </div>
+                            </div>
+                          </motion.div>
+                        ))}
                       </div>
-                    )}
-                  </motion.div>
-                )}
-              </div>
-            </motion.div>
-          )}
 
-          {activeTab === 'info' && (
-            <motion.div
-              key="info-tab"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <InfoTab />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </main>
-    </div>
+                      {/* Pagination */}
+                      {totalRecords > 0 && (
+                        <div className="pagination">
+                          <button
+                            className="page-btn"
+                            onClick={handlePrevPage}
+                            disabled={offset === 0 || loading}
+                          >
+                            <ChevronLeft size={20} />
+                          </button>
+                          <span className="page-info">
+                            {loading ? (
+                              <Loader2 size={16} className="spinner" />
+                            ) : (
+                              `Mostrando ${offset + 1} - ${Math.min(offset + LIMIT, totalRecords)} de ${totalRecords}`
+                            )}
+                          </span>
+                          <button
+                            className="page-btn"
+                            onClick={handleNextPage}
+                            disabled={offset + LIMIT >= totalRecords || loading}
+                          >
+                            <ChevronRight size={20} />
+                          </button>
+                        </div>
+                      )}
+                    </motion.div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+
+            {activeTab === 'info' && (
+              <motion.div
+                key="info-tab"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <InfoTab />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </main>
+      </div>
 
       {/* Footer */}
       <footer className="footer" id="footer">
