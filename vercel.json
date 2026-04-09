@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/api-ine/:path*",
-      "destination": "https://datos.ine.gob.gt/:path*"
-    }
-  ]
-}

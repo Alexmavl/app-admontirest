@@ -30,8 +30,8 @@ interface CkanResponse {
 }
 
 const RESOURCE_ID = '139681d7-73d5-49b6-92f4-f9fc34fa8bd0';
-const API_URL = '/api-ine/es/api/3/action/datastore_search';
-const LIMIT = 12; // Items per page
+const API_URL = '/api/proxy';
+const LIMIT = 6; // Items per page - Reducido para mayor velocidad de carga inicial
 
 const MOCK_DATA: CkanRecord[] = [
   { _id: 1, AÑO: 2024, MES: "Marzo", GRUPO: "A", SECCIÓN: 1, SUBSECCIÓN: null, "CÓDIGO ARTÍCULO": 101, "NOMBRE ARTÍCULO": "Cemento Portland gris saco de 42.5 kg", "UNIDAD DE MEDIDA": "saco", ÍNDICE: 165.4 },
@@ -183,10 +183,7 @@ function App() {
         url.searchParams.append('q', debouncedQuery.trim());
       }
 
-      const response = await fetch(url.toString(), {
-        // Incrementamos el timeout a 15 segundos para dar margen a la API del INE
-        signal: AbortSignal.timeout ? AbortSignal.timeout(15000) : undefined
-      });
+      const response = await fetch(url.toString());
       if (!response.ok) {
         throw new Error(`Error de red: ${response.status}`);
       }
