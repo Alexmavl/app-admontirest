@@ -1,7 +1,8 @@
-// Usamos el fetch nativo de Node.js 18+ disponible en Vercel
-export default async function handler(req, res) {
-  // Configurar cabeceras de CORS para permitir las peticiones del frontend
-  res.setHeader('Access-Control-Allow-Credentials', true);
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // Configurar cabeceras de CORS
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
   res.setHeader(
@@ -19,10 +20,11 @@ export default async function handler(req, res) {
     
     // Construir la URL real hacia el INE
     const targetUrl = new URL('https://datos.ine.gob.gt/es/api/3/action/datastore_search');
-    targetUrl.searchParams.append('resource_id', resource_id);
-    targetUrl.searchParams.append('limit', limit);
-    targetUrl.searchParams.append('offset', offset);
-    if (q) targetUrl.searchParams.append('q', q);
+    
+    if (resource_id) targetUrl.searchParams.append('resource_id', resource_id as string);
+    if (limit) targetUrl.searchParams.append('limit', limit as string);
+    if (offset) targetUrl.searchParams.append('offset', offset as string);
+    if (q) targetUrl.searchParams.append('q', q as string);
 
     console.log(`Proxying request to: ${targetUrl.toString()}`);
 
@@ -31,9 +33,7 @@ export default async function handler(req, res) {
       headers: {
         'Accept': 'application/json',
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-      },
-      // Vercel Serverless tiene sus propios límites, pero aquí le damos margen al INE
-      timeout: 9000 
+      }
     });
 
     if (!response.ok) {
@@ -43,7 +43,7 @@ export default async function handler(req, res) {
     const data = await response.json();
     return res.status(200).json(data);
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Proxy Error:', error);
     return res.status(500).json({ 
       error: 'Error interno en el proxy', 
