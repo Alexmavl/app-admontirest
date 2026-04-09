@@ -292,7 +292,7 @@ function App() {
             >
               <section className="search-section">
                 <p className="search-description">
-                  Busca en tiempo real índices de materiales de construcción consumiendo directamente la API pública del Instituto Nacional de Estadística.
+                  Busca en tiempo real índices de materiales de construcción consumiendo directamente la <a href="https://datos.ine.gob.gt/es/api/3/action/datastore_search?resource_id=139681d7-73d5-49b6-92f4-f9fc34fa8bd0" target="_blank" rel="noopener noreferrer" style={{ color: "var(--primary)", fontWeight: "600", textDecoration: "none" }}>API pública del Instituto Nacional de Estadística</a>.
                 </p>
                 <div className="search-bar-container">
                   <Search className="search-icon" size={20} />
@@ -424,30 +424,28 @@ function App() {
       {/* Footer */}
       <footer className="footer" id="footer">
         <div className="footer-grid">
-          <div className="footer-col footer-col-brand">
+          <div className="footer-col-brand">
             <img src="/imagen/Umg_logotipo.png" alt="Logo UMG" className="footer-logo" />
-            <p className="footer-text">
+            <div className="footer-text">
               <strong>Universidad Mariano Gálvez de Guatemala</strong><br />
-              Sede Chiquimulilla, Santa Rosa<br />
-              Facultad de Ingeniería en Sistemas
-            </p>
+              Sede Chiquimulilla, Santa Rosa | Facultad de Ingeniería en Sistemas
+            </div>
           </div>
           <div className="footer-col">
             <p className="footer-col-title">Tarea</p>
             <p className="footer-text">
-              Administración de TI — 9no Semestre<br />
-              Consumo de servicio web <strong>REST</strong><br />
-              API INE — {todayStr()}
+              Administración de TI — 9no Sem.<br />
+              Consumo Web <strong>REST</strong> (API INE) — {todayStr()}
             </p>
           </div>
           <div className="footer-col">
             <p className="footer-col-title">Integrantes</p>
-            <p className="footer-text footer-text-sm">
-              Marvin Alexander Vásquez López — 1790-22-12802<br />
-              Teddy Leonardo Hernández Pérez — 1790-22-2563<br />
-              Wilson Eduardo Hernández López — 1790-22-7315<br />
-              Guillermo José Gómez Aguilera — 1790-22-16429
-            </p>
+            <div className="footer-text footer-integrantes">
+              <span>M. Vásquez — 1790-22-12802</span>
+              <span>T. Hernández — 1790-22-2563</span>
+              <span>W. Hernández — 1790-22-7315</span>
+              <span>G. Gómez — 1790-22-16429</span>
+            </div>
           </div>
         </div>
       </footer>

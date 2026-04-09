@@ -1,6 +1,6 @@
 /* ─── Navbar ─────────────────────────────────────── */
 .navbar {
-  background: var(--gradient-hero);
+  background: var(--primary-dark);
   padding: 0 40px;
   display: flex;
   align-items: center;
@@ -73,6 +73,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+  padding-bottom: 110px; /* Padding extra para que el scroll llegue hasta el final sin ocultarse tras el footer fijo */
   width: 100%;
   flex: 1;
 }
@@ -455,39 +456,60 @@
 /* ─── Footer ──────────────────────────────────────────────── */
 .footer {
   background: var(--primary-dark);
-  padding: 60px 40px 40px;
+  padding: 15px 40px;
   margin-top: auto;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .footer-grid {
   max-width: 1200px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.footer-col-brand {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .footer-logo {
-  height: 50px;
-  margin-bottom: 20px;
+  height: 44px;
+  margin-bottom: 0;
   filter: brightness(1.2);
 }
 
 .footer-col-title {
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 700;
   color: #fff;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .footer-text {
   color: rgba(255,255,255,0.7);
-  font-size: 14px;
-  line-height: 1.8;
+  font-size: 12px;
+  line-height: 1.4;
 }
 
 .footer-text strong {
   color: #fff;
+}
+
+.footer-integrantes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px 15px;
 }
 
 .footer-col-brand .footer-text {
@@ -500,6 +522,11 @@
 
 @media (max-width: 900px) {
   .footer-grid {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+  }
+  .footer-integrantes {
     grid-template-columns: 1fr;
   }
 }
@@ -508,4 +535,12 @@
   .results-grid {
     grid-template-columns: 1fr;
   }
+  .footer-col-brand {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .footer-logo {
+    margin-bottom: 15px;
+  }
 }
+
