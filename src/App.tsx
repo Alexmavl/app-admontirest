@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Search, Loader2, Database, AlertCircle, ChevronLeft, ChevronRight, HardHat } from 'lucide-react';
+import { Search, Loader2, AlertCircle, ChevronLeft, ChevronRight, HardHat } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './App.css';
 
