@@ -599,12 +599,23 @@
   }
 
   .pagination {
-    gap: 0.8rem;
+    gap: 0.5rem;
     margin-top: 2rem;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .page-btn {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    flex-shrink: 0;
   }
 
   .page-info {
-    font-size: 12px;
+    font-size: 11px;
+    text-align: center;
+    flex: 1;
   }
 }
 
