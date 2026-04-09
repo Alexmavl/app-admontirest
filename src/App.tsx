@@ -30,7 +30,7 @@ interface CkanResponse {
 }
 
 const RESOURCE_ID = '139681d7-73d5-49b6-92f4-f9fc34fa8bd0';
-const API_URL = '/api/proxy';
+const API_URL = '/api-ine/es/api/3/action/datastore_search';
 const LIMIT = 6; // Items per page - Reducido para mayor velocidad de carga inicial
 
 const MOCK_DATA: CkanRecord[] = [
